@@ -1,0 +1,11 @@
+Welcome to Bvcse Chat version 1.0.
+
+You are the first user online.
+
+ramesh> hi to all
+<<New user "satish" connected>>
+satish> hi how r u
+<<New user "suresh" connected>>
+suresh> i am sending a public message to all three users
+*private to suresh*> i am sending a private message to suresh
+<<suresh is disconnecting>>
