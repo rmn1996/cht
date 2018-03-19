@@ -1,0 +1,391 @@
+Bvcse CHAT
+
+
+MANUAL.TXT
+
+This file describes the operation of the Bvcse Chat client.  If you need
+instructions on setting up a chat server, please see the file
+MANUAL-SERVER.TXT
+
+
+1. RUNNING Bvcse
+
+  (If you're reading this from within the Bvcse client, you don't need
+  this first section.  Skip to section 2.)
+
+  Bvcse runs using Java.  Both the client and the server need a Java
+  virtual machine in order to launch.  However, what you'll need to do
+  to satisfy this requirement depends on how you want to use it...
+
+
+  ...AS A STANDALONE APPLICATION
+
+  If you want to run the server, or run the client as a standalone Java
+  application, then you will need to obtain/locate the command-line program
+  called 'java'.  After you have done this, you will need to set your
+  CLASSPATH.  This variable tells the Java software where to find all the
+  parts of Bvcse that it needs.  After you download and/or build Bvcse,
+  you will have a file called 'Bvcse.jar'.  You need to put the pathname
+  of this file into your CLASSPATH variable.
+
+  For example, using 'csh' on a unix-like system, you would do something
+  like:
+
+	setenv CLASSPATH /directory/path/Bvcse.jar:$CLASSPATH
+
+  Under DOS/Windows, it's more like this:
+
+	set CLASSPATH=c:\directory\path\Bvcse.jar;%CLASSPATH%
+
+  Now you can start either a Bvcse client, a server, or both.  To start
+  the client, invoke the Java interpreter with the name 'Bvcse', plus any
+  of the options shown:
+
+	java Bvcse [-username name] [-password password]
+		[-servername host] [-portnumber port] [-autoconnect]
+		[-chatroom room] [-xsize width] [-ysize height]
+		[-nopasswords] [-locksettings] [-hidecanvas]
+
+  -username
+	Using this flag followed by a user name automatically sets the user
+	name in the client.
+
+  -password
+	Using this flag followed by a password automatically sets the
+	password in the client.
+
+  -servername
+	This parameter allows you to set the server name in the client.
+	If none is specified, the default is the server at Bvcseitc.com.
+
+  -portnumber
+	This option, followed by a numerical port value, allows the user
+	to specify a TCP port different from the Bvcse Chat default of
+	12468
+
+  -autoconnect
+	This flag will cause the client to attempt to connect automatically.
+	Note that if any required information is missing (such as user names,
+	passwords, server names, etc) the client will prompt the user for it.
+
+  -chatroom
+	This option is used in conjunction with the -autoconnect parameter, 
+	and is used to set the name of the initial chat room inhabited by the
+	user.  If the room does not already exist, the server will create it.
+
+  -xsize
+	This sets the initial width of the client window.  This is mostly
+	useful as an applet parameter when launching the client from a
+	web page, but it is provided as an application parameter anyway.
+
+  -ysize
+	See '-xsize'
+
+  -nopasswords
+	Do not require the user to enter a password.  By default, passwords
+	are required to be entered by the user even if the server does not
+	require them.	
+
+  -locksettings
+	Once the user name, password, server, port, etc. are set, do not
+	allow them to be changed by the user.
+
+  -hidecanvas
+	Don't show the drawing canvas
+ 
+
+  To start the server in its default configuration, simply type
+
+	java BvcseServer
+
+  See the file MANUAL-SERVER.TXT for more information about the different
+  options available for invoking the server.
+
+
+  ...OR AS A CLIENT APPLET FROM A WEB PAGE
+
+  When running the client as an applet from an HTML document, the user's web
+  browser will need to be Java-enabled.  Next, you need to make sure all of
+  Bvcse's .class files are free-standing (i.e. compile them from the
+  sources or extract them from the .jar archive included with the binary
+  distribution).  To launch the applet from your HTML document, you should
+  insert a tag that looks something like this:
+
+	<APPLET archive="Bvcse.jar" code="BvcseApplet.class"
+                codebase="http://your.server.org/Bvcse_directory/"
+		width="0" height="0">
+  		<param name="username" value="some_user_name">
+  		<param name="password" value="some_user_password">
+  		<param name="servername" value="your.server.org">
+  		<param name="portnumber" value="12468">
+  		<param name="autoconnect" value="yes">
+  		<param name="chatroom" value="some_initial_room">
+		<param name="xsize" value="some_number">
+		<param name="ysize" value="some_number">
+  		<param name="usepasswords" value="no">
+  		<param name="locksettings" value="yes">
+  		<param name="hidecanvas" value="yes">
+		You'll need a browser with Java support to run the
+		Bvcse Chat applet!
+	</APPLET>
+
+  All of the 'param' entries above are optional.  'username', 'servername',
+  'portnumber', and 'chatroom' allow your HTML page to pre-set those values
+  in the client (so that the user doesn't need to enter them before
+  connecting).  The default port number is always 12468, but it can be
+  changed if desired.  The parameter 'locksettings' will prevent the user
+  from changing the user name, server name, or port number values.  
+  Setting the parameter 'usepasswords' to 'no' will cause the client not
+  to require the user to enter a password.  The parameter 'autoconnect' will
+  cause the applet to connect to the specified server without prompting the
+  user.  The parameter 'hidecanvas' can be used to prevent the drawing canvas
+  from appearing at startup time.  
+
+  Please note that an unsigned applet client (for Java
+  security reasons) is only allowed to connect to the same server that it
+  was downloaded from.  That means that the 'codebase' argument above will
+  generally need to be the same as the 'servername' argument.  See the 
+  beginning of section 3: "How to Use the Bvcse Server" for more detail.
+
+
+2. USING THE Bvcse CLIENT (the chat program)
+
+  Connecting to a Server
+
+  You can initiate a connection by selecting 'File/Connect' from the
+  menu bar.  If your connection attempt is successful, you should see a
+  message in the conference window such as "Welcome to Bvcse Chat".  Also,
+  the 'Currently sending to' list should fill up with the user names of all
+  the connected users.  Otherwise, you should see a small dialog box with an
+  error message.
+
+  NOTE: Before you can connect to a server, you will need to specify the
+  user name with which you would like to identify yourself, the name of the
+  server to which you would like to connect, and also the TCP/IP port number
+  at the server (there are defaults for these last two).  These settings can
+  be adjusted using the 'Connection settings' box (see below) -- however if
+  you do not do this before attempting to connect, the settings box will
+  prompt you automatically.
+
+
+  The Connection Settings Box
+
+  This dialog box is where you specify all of the settings to be used
+  in communication.  These include your desired user name, the server
+  to connect to, your location, and any other personal information you'd
+  like to share while connected.  To bring up the box, select
+  'View/Connection settings' from the menu.
+
+  Your user name must be entered.  This field is mandatory.
+
+  The server name is the host name or IP address of the server to which you
+  desire a connection.  For example:
+
+	localhost
+		- This will connect to a server running on the same
+		machine as the client.
+
+	visopsys.org
+		- Try visopsys.org to see if a server is running there.
+		This is entered by default.
+
+	161.184.78.114
+		- You can specify a server's IP address directly.
+
+  This field is also mandatory. 
+
+  The port number is set to '12468' by default.  This is the TCP port
+  on which a server will run by default unless another is specified.
+  Thus you probably want to leave this field alone unless you've been
+  specifically instructed to use a different one.  If the port number
+  you choose is not correct, you will not be able to connect to the server
+  even though you've specified the correct server name.  This field is also 
+  mandatory.
+
+  Your location can be specified with a single line of text and is only for
+  the benefit of the other users online.  There is a similar, multi-line
+  space for any additional information you'd like to share while online.
+  Both of the above fields are completely optional, and you will lose no
+  functionality if you choose to leave them blank. 
+
+
+  Disconnecting
+
+  Select 'File/Disconnect' from the menu to terminate your connection
+  to the server.  Alternatively you can choose 'File/Exit' from the menu
+  or manually close the client window.  Both of these last two options will
+  disconnect you from the server before shutting down the Bvcse Chat
+  client.
+
+
+  Text Communication (chatting)
+
+  To send text lines to the other connected users, you should type them
+  into the 'Text lines to send' field.  Each time you press 'enter', the
+  text in the field will be sent to all of the selected participants.
+
+  You can select text in the 'Conference text' box and select 'Edit/Copy' 
+  from the menu to copy it to the Bvcse program's buffer.  Choosing
+  'Edit/Paste' will cause the text in the buffer to be transferred to the
+  'Text lines to send' field.  You can then send the pasted text by
+  pressing 'enter' in that field.
+
+  If you or anyone else is typing something, you should see the message
+  'typing: [user]' in the "Current activity" box while they are doing so.
+
+
+  Drawing on the Canvas
+
+  Standard drawing conventions are followed here.  Drawing components are
+  created in the same way as with commercial drawing programs (i.e. mostly
+  clicking and dragging).
+
+  To set the drawing color, use the drop-down list provided.  Likewise,
+  there are drop-down lists for choosing line thickness and whether shapes
+  should be 'filled' or 'outlined'.
+
+  To scribble on the canvas, select 'Draw freehand'.  You can then click
+  and drag to draw like you would with a pen.
+
+  To create rectangles or ovals, select either 'Rectangle' or 'Oval'.
+  You can then click on the area of the canvas where one 'corner' of the
+  shape should be, and drag to where the opposite 'corner' should reside.
+  While dragging, a "draft" of the shape will be sketched on the canvas.
+  When it looks the way you want, release the mouse button to finalize
+  the image.
+
+  To create text on the canvas, choose 'Text' and click on the canvas.
+  A dialog box will pop up which asks you to select the font, size, style
+  and text of the message.  Entering text and clicking 'Ok' will cause the
+  dialog box to disappear, and your text will be "sticking" to your mouse
+  cursor.  Click one more time on the canvas to finalize the location.  To
+  cancel a text placement from the dialog box, simply click 'Ok' with nothing
+  in the text field, or use the 'Cancel' button.
+
+  Choosing 'Actions/Clear canvas' canvas on the menu or pushing the
+ 'Clear canvas' button will clear the drawing canvas.  If you are connected
+  to a server, all other users in your chat room will have their canvasses
+  cleared as well and they will receive the message "<<[user] cleared the
+  canvas>>".  (Careful: other users might be angry if you do this while
+  they're still using whatever is showing on the canvas.)
+
+  If you or anyone else is drawing something, you should see the message
+  'drawing: [user]' in the "Current activity" box while they are doing so.
+
+
+  Communicating Privately
+
+  You can choose to send your messages and drawings to all the other users
+  in your current chat room (this is the default), or you can choose to
+  communicate privately with selected users.  If you wish to do this, you
+  should select the approprate user name in the 'Currently sending to' field.
+  Each line you type will show something similar to the following in your
+  conference text window:
+
+	*private to andy mclaughlin*> hello
+
+  It is shown this way both so that you can be sure you're only talking to
+  the desired person, and so that you won't continue to "whisper" to one
+  person inadvertently.  Likewise, when someone is sending private messages
+  to you, it will look something like the following:
+
+	*private from andy mclaughlin*> hello again
+
+  If you wish to resume communications with all users, re-select 'Everyone'
+  in the 'Currently sending to' field.
+
+  It may be more convenient to create a private chat room and invite the
+  desired participants.
+
+
+  Chat Rooms
+
+  As of Bvcse Chat version 2.0, it is possible for users to create and
+  administer "chat rooms".  In order to use this feature, click on the 'Chat
+  rooms...' button or select 'View/Chat rooms...' from the menu.  You will
+  see a dialog box which displays all of the current chat rooms on the server.
+  By selecting a chat room name from this list, you can find out more
+  information about the room by clicking 'Room info', or you can enter the
+  chat room by clicking 'Enter room'.
+
+  Pressing the button 'Create room' will bring up another dialog box in
+  which the settings for your new room can be chosen.  Here you can pick
+  a name for the room, and indicate whether the room should be either
+  "private" or accessible to all users (this is the default).  If you click
+  the 'room is private' button, you'll need to explicitly invite users to
+  allow them to join.
+
+  After creating a chat room, another 'Chat room control' window will appear
+  which enables the room creator to control access to the room (If you are
+  the creator of any room you can raise this window by selecting 
+  'View/Chat room control panel' from the menu).  The room creator can
+  invite users into the room, boot users from the room, ban users from the
+  room or allow them into the room.
+
+  A chat room will exist as long as there are users in the room.
+
+
+  Paging Users
+
+  Choosing 'Actions/Page user(s)' on the menu or pushing the 'Page user(s)'
+  button will both cause the user selected in the 'Currrently sending to'
+  box to hear a sound on their terminal, along with the message
+  "<< [user] is paging you >>".  If you don't select a user first (i.e.
+  'Everyone' is selected) you will be paging everyone that's currently
+  connected to the server.  If you don't want to be bothered by people
+  who are trying to page you, un-check the 'View/Play sound when paged' menu
+  item.
+
+  NOTE ON PAGING: When you page someone it makes a sound like a screeching
+  monkey.  People might find it annoying if you do this excessively.
+
+
+  Messaging
+
+  Choosing 'Actions/Messaging' on the menu or pushing the 'Messaging'
+  button will invoke a dialog box in which you can specify the recipient
+  and a message.  The message is sent as a single line of arbitrary length.
+  There are actually 2 forms of messaging: "saved" e-mail style messages
+  which are stored on the server and delivered later, and instant-message
+  style messages which pop up immediately on the recipient's screen.  If
+  you choose a saved message, then you must take care to specify the
+  user's name the same way that the user commonly does when they log on,
+  as they will not be able to read it otherwise.  If you want to send an
+  instant message, then select the user's name from the list of connected
+  participants.
+
+
+  Receiving Messages
+
+  If there are saved messages waiting for you, you will be notified when
+  you first connect to a server.  At that time (or any other time) you can
+  receive your messages by pressing the 'Messaging' button or by selecting
+  'Actions/Messaging' from the menu, then pressing the "Read saved messages"
+  button on the messaging window.  For each saved message, you will see a
+  dialog box which lists the sender and the text of the message.
+
+
+  Getting Information About the Other Connected Users
+
+  If you select a user name in the 'Currently sending to' box, you can
+  read any information they have chosen to share about themselves by 
+  pressing the 'User information' button or choosing 'View/User information'
+  from the menu.  The response from the server will appear in the conference
+  text window.  This is only seen by you, and the user in question is not
+  notified about the query.
+
+
+  Ignoring Users
+
+  Sometimes, you might find yourself wanting to "turn off" another user
+  who has become abusive or annoying.  You can do so by selecting the user's
+  name from the 'Currently sending to' list and then selecting
+  'Actions/Ignore user(s)'.  Your client will then show you a list of all
+  the users that you are ignoring.  Ignoring a user means that almost any
+  action they take (such as typing, drawing, clearing the canvas, instant
+  messaging and invitations to chat rooms) will no longer be seen by you.
+  Note that you cannot "un-ignore" a user; your ignored user list persists
+  while you are online, and is reset each time you connect to a server.
+
+
+end.
